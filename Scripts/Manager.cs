@@ -1,5 +1,5 @@
 using UnityEngine;
 
 public class Manager : MonoBehaviour {
-    public virtual void Init() => Debug.Log($"{name} is initialized!");
+    public virtual void AwakeManager() => Debug.Log($"{name} is initialized!");
 }

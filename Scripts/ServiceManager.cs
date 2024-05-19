@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ServiceManager : MonoBehaviour {
     [SerializeField] private List<Manager> managerList; // add all managers to list at the scene
-    private Dictionary<Type, object> managerDic;
+    private Dictionary<Type, object> managerDic = new Dictionary<Type, object>();
 
     public static ServiceManager Instance;
     private void Awake() {
@@ -12,12 +12,11 @@ public class ServiceManager : MonoBehaviour {
             Instance = this;
             DontDestroyOnLoad(this);
         } else Destroy(this);
-        Init();
+        AwakeManagers();
     }
 
-    public void Init() {
-        managerDic = new Dictionary<Type, object>();
-        foreach (var manager in managerList) manager.Init();
+    public void AwakeManagers() {
+        foreach (var manager in managerList) manager.AwakeManager();
     }
 
     public void RegisterManager<T>(T manager) => managerDic[typeof(T)] = manager;

@@ -7,22 +7,16 @@ public class SaveManager : Manager {
     public Action OnLoad;
 
     public SaveData SaveData;
-    private string dataLocation;
+    private string dataPath;
 
-    private void Start() {
-        LoadCheck();
-    }
-
-    public override void Init() {
-        base.Init();
+    public override void AwakeManager() {
+        base.AwakeManager();
         var sm = ServiceManager.Instance;
         sm.RegisterManager<SaveManager>(this);
-        dataLocation = Application.persistentDataPath + "/SaveData.json";
     }
 
-    private void LoadCheck() {
-        if (File.Exists(dataLocation)) Load();
-    }
+    public void SetPath(int id) => dataPath = Application.persistentDataPath + "/SaveData" + id + ".json";
+    public bool IsValidPath(int id) => File.Exists(Application.persistentDataPath + "/SaveData" + id + ".json");
 
     [ContextMenu("Save")]
     public void Save() {
@@ -32,26 +26,23 @@ public class SaveManager : Manager {
 
     [ContextMenu("Load")]
     public void Load() {
+        if (!File.Exists(dataPath)) return;
         LoadFromFile();
         OnLoad?.Invoke();
     }
 
     [ContextMenu("Delete")]
     public void Delete() {
-        if (File.Exists(dataLocation)) File.Delete(dataLocation);
+        if (File.Exists(dataPath)) File.Delete(dataPath);
     }
 
     public void SaveToFile() {
         string json = JsonUtility.ToJson(SaveData, true);
-        File.WriteAllText(dataLocation, json);
+        File.WriteAllText(dataPath, json);
     }
 
     public void LoadFromFile() {
-        string json = File.ReadAllText(dataLocation);
+        string json = File.ReadAllText(dataPath);
         SaveData = JsonUtility.FromJson<SaveData>(json);
-    }
-
-    private void OnApplicationQuit() {
-        Save(); // auto save at exit
     }
 }
