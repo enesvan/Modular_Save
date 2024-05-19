@@ -20,5 +20,7 @@ This is a save tool which works in Unity game engine.
 
 ## Planned Updates
 -> Fixed multiple saves
+
 -> Limitless multiple saves
+
 -> Encryption-Decryption
