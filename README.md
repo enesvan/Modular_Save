@@ -6,21 +6,21 @@ This is a save tool which works in Unity game engine.
 
 2. Attach SaveManager.cs to an game object and parent it to Service Manager object
 
-3. Attach Save Manager object to manager list at ServiceManager.cs in Service Manager object
+3. Attach UIManager.cs to an game object and parent it to Service Manager object
+
+4. Attach Save Manager and UI Manager objects to manager list at ServiceManager.cs in Service Manager object
 
 ## Usage
--> Attach ISaveable interface to which class you want to save any data
+1. Attach ISaveable interface to which class you want to save any data
 
--> Create a data class like ExampleSaveablaData in SaveData.cs
+2. Create a data class like ExampleSaveablaData in SaveData.cs
 
--> Implement ISaveable interface like ExampleSaveable.cs
+3. Implement ISaveable interface like ExampleSaveable.cs
 
 ## Details
--> It loads at the beginning of the game and saves when player exits from the game
+-> It loads and saves with several buttons which controls different save files
 
 ## Planned Updates
--> Fixed multiple saves
+-> Encryption-Decryption
 
 -> Limitless multiple saves
-
--> Encryption-Decryption
