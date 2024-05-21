@@ -26,10 +26,13 @@ public class UIManager : Manager {
     }
 
     private void Start() {
+        var sm = ServiceManager.Instance;
+        var svm = sm.GetManager<SaveManager>();
+        svm.AfterSave += SetLoadStates;
         SetLoadStates();
     }
 
-    private void SetLoadStates() {
+    public void SetLoadStates() {
         var sm = ServiceManager.Instance;
         var svm = sm.GetManager<SaveManager>();
         loadButton0.interactable = svm.IsValidPath(0);

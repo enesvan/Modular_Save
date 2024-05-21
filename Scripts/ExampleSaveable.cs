@@ -6,8 +6,8 @@ public class ExampleSaveable : MonoBehaviour, ISaveable {
     public void Register() {
         var sm = ServiceManager.Instance;
         var svm = sm.GetManager<SaveManager>();
-        svm.OnSave += Save;
-        svm.OnLoad += Load;
+        svm.BeforeSave += Save;
+        svm.AfterLoad += Load;
     }
     public void Load() {
         var sm = ServiceManager.Instance;
@@ -38,7 +38,7 @@ public class ExampleSaveable : MonoBehaviour, ISaveable {
     [SerializeField] private string id;
     [SerializeField] private int health;
 
-    private void OnEnable() {
+    private void Start() {
         Register();
     }
 }

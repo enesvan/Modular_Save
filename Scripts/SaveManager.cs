@@ -3,11 +3,15 @@ using System.IO;
 using UnityEngine;
 
 public class SaveManager : Manager {
-    public Action OnSave;
-    public Action OnLoad;
+    public Action BeforeSave;
+    public Action AfterSave;
+    public Action AfterLoad;
 
     public SaveData SaveData;
     private string dataPath;
+
+    [SerializeField] private bool useEncryption = false;
+    private const string encryptKeyword = "467104098"; // Use any keyword
 
     public override void AwakeManager() {
         base.AwakeManager();
@@ -20,15 +24,16 @@ public class SaveManager : Manager {
 
     [ContextMenu("Save")]
     public void Save() {
-        OnSave?.Invoke();
+        BeforeSave?.Invoke();
         SaveToFile();
+        AfterSave?.Invoke();
     }
 
     [ContextMenu("Load")]
     public void Load() {
         if (!File.Exists(dataPath)) return;
         LoadFromFile();
-        OnLoad?.Invoke();
+        AfterLoad?.Invoke();
     }
 
     [ContextMenu("Delete")]
@@ -38,11 +43,21 @@ public class SaveManager : Manager {
 
     public void SaveToFile() {
         string json = JsonUtility.ToJson(SaveData, true);
+        if (useEncryption) json = EncryptOrDecrypt(json);
         File.WriteAllText(dataPath, json);
     }
 
     public void LoadFromFile() {
         string json = File.ReadAllText(dataPath);
+        if (useEncryption) json = EncryptOrDecrypt(json);
         SaveData = JsonUtility.FromJson<SaveData>(json);
+    }
+
+    private string EncryptOrDecrypt(string json) {
+        string result = "";
+        for (int i = 0; i < json.Length; i++) {
+            result += (char)(json[i] ^ encryptKeyword[i % encryptKeyword.Length]);
+        }
+        return result;
     }
 }
