@@ -21,6 +21,3 @@ This is a save tool which works in Unity game engine.
 -> It loads and saves with several buttons which controls different save files
 
 -> If developer wants to use encryption system, it's selectable from inspector on Save Manager object
-
-## Planned Updates
--> Limitless multiple saves
